@@ -3,8 +3,8 @@
 O presente algoritmo foi desenvolvido como parte de uma atividade para a disciplina de Inteligência Artificial durante o período letivo 2021/2 no curso de Sistemas de Informação da Universidade Federal de Lavras.
 
 # Alunos:
-Bruno Carlos de Mesquita Naves
-Wender Beraldo Lemes Pereira
+* Bruno Carlos de Mesquita Naves
+* Wender Beraldo Lemes Pereira
 
 # Requisitos:
 * [Python 3](https://www.python.org/downloads/) instalado na máquina;
