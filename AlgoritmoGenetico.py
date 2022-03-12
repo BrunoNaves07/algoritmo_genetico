@@ -2,11 +2,11 @@ from random import randint
 
 class AlgoritmoGenetico():
 
-    def __init__(self, min, max, populacao, mutacao, crossover, geracoes):
+    def __init__(self, min, max, tamPopulacao, mutacao, crossover, geracoes):
 
         self.min =  min
         self.max = max
-        self.tamPopulacao = populacao
+        self.tamPopulacao = tamPopulacao
         self.mutacao = mutacao
         self.crossover = crossover
         self.geracoes = geracoes
@@ -43,7 +43,7 @@ class AlgoritmoGenetico():
             numero = randint(self.min, self.max)
 
             # converte o número sorteado para formato binário com sinal
-            numero_binario = bin(numero).replace('0b', '' if numero < 0 else '+').zfill(self.numBits)
+            numero_binario = self.converteBinario(numero)
 
             # transforma o número binário resultante em um vetor
             for bit in numero_binario:
@@ -67,27 +67,29 @@ class AlgoritmoGenetico():
     
     def selecaoIndividuo(self):
         # Agrupa os individuos com suas avaliações
-        participantes = [self.populacao, self.avaliacao]
+        participantes = []
+        for i in range(self.tamPopulacao):
+        	participantes.append([self.populacao[i], self.avaliacao[i]])
 
         # Escolhe dois individuos aleatoriamente
         individuoA = participantes[randint(0, self.tamPopulacao - 1)]
         individuoB = participantes[randint(0, self.tamPopulacao - 1)]
 
         # Retorna individuo com a maior avaliação
-        return individuoA[0] if individuoB[1] >= individuoB[1] else individuoB[0]
+        return individuoA[0] if individuoA[1] >= individuoB[1] else individuoB[0]
 
     ### Ajusta o individuo de acordo com limite mais próximo
     def ajustar(self, individuo):
 
         if int(''.join(individuo), 2) < self.min:
-            ajusta = converteBinario(self.min)
+            ajusta = self.converteBinario(self.min)
 
             for indice, bit in enumerate(ajusta):
                 individuo[indice] = bit
 
         elif int(''.join(individuo), 2) > self.max:
             # se o individuo é maior que o limite máximo, ele é substituido pelo próprio limite máximo
-            ajusta = converteBinario(self.max)
+            ajusta = self.converteBinario(self.max)
             for indice, bit in enumerate(ajusta):
                 individuo[indice] = bit
 
@@ -101,7 +103,7 @@ class AlgoritmoGenetico():
         # cria a tabela com as regras de mutação
         tabelaMutacao = str.maketrans('+-01', '-+10')
         # caso a taxa de mutação seja atingida, ela é realizada em um bit aleatório
-        if randint(1,100) <= self.taxa_mutacao:
+        if randint(1,100) <= self.mutacao:
             bit = randint(0, self.numBits - 1)
             individuo[bit] = individuo[bit].translate(tabelaMutacao)
 
@@ -126,6 +128,10 @@ class AlgoritmoGenetico():
 
         # retorna os filhos obtidos pelo crossover
         return (filhoA, filhoB)
+
+    ### Conver um inteiro em binário
+    def converteBinario (self, inteiroOriginal):
+    	return bin(inteiroOriginal).replace('0b', '' if inteiroOriginal < 0 else '+').zfill(self.numBits)
 
 
 def main():
