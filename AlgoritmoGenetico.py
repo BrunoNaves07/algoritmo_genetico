@@ -52,6 +52,7 @@ class AlgoritmoGenetico():
 
     ### Realiza a avaliação do indivíduo
     def avaliar(self):     
+        self.avaliacao = []
         for individuo in self.populacao:
             self.avaliacao.append(self.objetivo(individuo))   
 
@@ -129,14 +130,14 @@ class AlgoritmoGenetico():
         # retorna os filhos obtidos pelo crossover
         return (filhoA, filhoB)
 
-    ### Conver um inteiro em binário
+    ### Converte um inteiro em binário
     def converteBinario (self, inteiroOriginal):
     	return bin(inteiroOriginal).replace('0b', '' if inteiroOriginal < 0 else '+').zfill(self.numBits)
 
 
 def main():
 
-    algoritmoGenetico = AlgoritmoGenetico(-10, 10, 30, 1, 70, 50)
+    algoritmoGenetico = AlgoritmoGenetico(-10, 10, 4, 1, 70, 5)
 
     algoritmoGenetico.avaliar()
 
